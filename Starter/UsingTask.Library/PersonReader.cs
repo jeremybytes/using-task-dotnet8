@@ -8,7 +8,7 @@ public class PersonReader
     private readonly HttpClient client = new() { BaseAddress = new Uri("http://localhost:9874") };
     private readonly JsonSerializerOptions options = new() { PropertyNameCaseInsensitive = true };
 
-    public async Task<List<Person>> GetAsync()
+    public async Task<List<Person>> GetPeopleAsync()
     {
         await Task.Delay(3000);
 
@@ -20,6 +20,6 @@ public class PersonReader
         var stringResult =
             await response.Content.ReadAsStringAsync();
         var result = JsonSerializer.Deserialize<List<Person>>(stringResult, options);
-        return result ?? new List<Person>();
+        return result ?? [];
     }
 }

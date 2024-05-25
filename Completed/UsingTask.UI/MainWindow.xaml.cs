@@ -6,7 +6,7 @@ namespace UsingTask.UI;
 
 public partial class MainWindow : Window
 {
-    PersonReader reader = new PersonReader();
+    PersonReader reader = new();
     CancellationTokenSource? tokenSource;
 
     public MainWindow()
@@ -16,57 +16,66 @@ public partial class MainWindow : Window
 
     private void FetchWithTaskButton_Click(object sender, RoutedEventArgs e)
     {
-        tokenSource = new CancellationTokenSource();
-        FetchWithTaskButton.IsEnabled = false;
         ClearListBox();
+        tokenSource = new();
 
-        Task<List<Person>> peopleTask = reader.GetAsync(tokenSource.Token);
-        peopleTask.ContinueWith(task =>
-        {
-            if (task.IsFaulted)
+        FetchWithTaskButton.IsEnabled = false;
+
+        Task<List<Person>> peopleTask = reader.GetPeopleAsync(tokenSource.Token);
+        peopleTask.ContinueWith(
+            task =>
             {
-                foreach (var ex in task.Exception!.Flatten().InnerExceptions)
+                if (task.IsFaulted)
+                {
+                    foreach(var ex in task.Exception.Flatten().InnerExceptions)
                     MessageBox.Show($"ERROR\n{ex.GetType()}\n{ex.Message}");
-            }
-            if (task.IsCanceled)
-            {
-                MessageBox.Show("CANCELED");
-            }
-            if (task.IsCompletedSuccessfully)
-            {
-                List<Person> people = task.Result;
-                foreach (var person in people)
-                    PersonListBox.Items.Add(person);
-            }
-            FetchWithTaskButton.IsEnabled = true;
-        },
-        TaskScheduler.FromCurrentSynchronizationContext());
+                }
+                if (task.IsCanceled)
+                {
+                    MessageBox.Show("CANCELED CANCELED CANCELED");
+                }
+                if (task.IsCompletedSuccessfully)
+                {
+                    List<Person> people = task.Result;
+                    foreach (var person in people)
+                    {
+                        PersonListBox.Items.Add(person);
+                    }
+                }
+                FetchWithTaskButton.IsEnabled = true;
+                tokenSource.Dispose();
+            },
+            TaskScheduler.FromCurrentSynchronizationContext());
     }
 
     private async void FetchWithAwaitButton_Click(object sender, RoutedEventArgs e)
     {
-        tokenSource = new CancellationTokenSource();
+        ClearListBox();
+        tokenSource = new();
+
         FetchWithAwaitButton.IsEnabled = false;
+
         try
         {
-            ClearListBox();
-
-            List<Person> people = await reader.GetAsync(tokenSource.Token);
+            List<Person> people = await reader.GetPeopleAsync(tokenSource.Token);
             foreach (var person in people)
+            {
                 PersonListBox.Items.Add(person);
+            }
         }
-        catch (OperationCanceledException ex)
+        catch(OperationCanceledException ex)
         {
             MessageBox.Show($"CANCELED\n{ex.GetType()}\n{ex.Message}");
         }
-        catch (Exception ex)
+        catch(Exception ex)
         {
             MessageBox.Show($"ERROR\n{ex.GetType()}\n{ex.Message}");
         }
         finally
         {
             FetchWithAwaitButton.IsEnabled = true;
-        }
+            tokenSource.Dispose();
+        }   
     }
 
     private void CancelButton_Click(object sender, RoutedEventArgs e)

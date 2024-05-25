@@ -6,7 +6,7 @@ namespace UsingTask.UI;
 
 public partial class MainWindow : Window
 {
-    PersonReader reader = new PersonReader();
+    PersonReader reader = new();
 
     public MainWindow()
     {
@@ -18,7 +18,7 @@ public partial class MainWindow : Window
         ClearListBox();
     }
 
-    private async void FetchWithAwaitButton_Click(object sender, RoutedEventArgs e)
+    private void FetchWithAwaitButton_Click(object sender, RoutedEventArgs e)
     {
         ClearListBox();
     }
