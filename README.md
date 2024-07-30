@@ -80,8 +80,7 @@ Provides a list of "Person" objects. This service will delay for 3 seconds befor
 
 **Experts**  
 * [Stephen Cleary](http://blog.stephencleary.com/)
-* [Lucian Wischik](http://blogs.msdn.com/b/lucian/)
-* [Stephen Toub](https://devblogs.microsoft.com/pfxteam/author/toub/)
+* [Stephen Toub](https://devblogs.microsoft.com/dotnet/author/toub/)
 
 **Parallel Programming wtih Task**  
 * [Run Faster: Parallel Programming in C#](http://www.jeremybytes.com/Demos.aspx#ParallelProgramming)  
