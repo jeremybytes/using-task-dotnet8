@@ -46,7 +46,7 @@ Provides a list of "Person" objects. This service will delay for 3 seconds befor
 * [Central California .NET - Apr 2016](https://www.youtube.com/watch?v=B2HDDKq4d3c) (extended version)  
 
 **Additional Materials**  
-* [Understanding Asynchronous Programming in C#](https://github.com/jeremybytes/async-workshop-2022)  
+* [Asynchronous and Parallel Programming in C#](https://github.com/jeremybytes/async-workshop-2024)  
 (Workshop with additional slides and labs)
 
 **Articles**  
